@@ -18,7 +18,9 @@
     <p>{{ $detalleGasto->tipogasto->Descripcion }}</p>
 
     <h2>Viaje</h2>
-    <p>{{ $detalleGasto->viaje->Destino }}</p>
+    <p>{{ $detalleGasto->trip->destination }}</p>
+    <p>{{ $detalleGasto->trip->start_date }}</p>
+    <p>{{ $detalleGasto->trip->end_date }}</p>
 
     <h2>Empleado</h2>
     <p>{{ $detalleGasto->empleado->Nombre }}</p>

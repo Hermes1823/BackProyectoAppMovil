@@ -25,10 +25,11 @@ class DetalleGastoController extends Controller
     {
         $validatedData = $request->validate([
             'IdTipogasto' => 'nullable|exists:detallegastos,id',
-            'IdViaje' => 'nullable|exists:viajes,id',
+            // 'IdViaje' => 'nullable|exists:viajes,id',
             'IdEmpleado' => 'nullable|exists:empleados,id',
             'Monto' => 'required|number',
-            'Fecha' => 'required'
+            'Fecha' => 'required',
+            'trip_id' => 'nullable|exists:trips,id'
         ]);
 
         $detalleGasto = DetalleGasto::create($validatedData);
@@ -39,9 +40,13 @@ class DetalleGastoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show($idTipogasto, $idViaje, $idEmpleado)
     {
-        $detalleGasto = DetalleGasto::with(['tipogasto', 'viaje', 'empleado'])->findOrFail($id);
+        $detalleGasto = DetalleGasto::with(['tipogasto', 'viaje', 'empleado'])
+            ->where('IdTipogasto', $idTipogasto)
+            ->where('IdViaje', $idViaje)
+            ->where('IdEmpleado', $idEmpleado)
+            ->firstOrFail();
 
         return response()->json($detalleGasto);
     }
@@ -55,10 +60,11 @@ class DetalleGastoController extends Controller
 
         $validatedData = $request->validate([
             'IdTipogasto' => 'nullable|exists:detallegastos,id',
-            'IdViaje' => 'nullable|exists:viajes,id',
+            // 'IdViaje' => 'nullable|exists:viajes,id',
             'IdEmpleado' => 'nullable|exists:empleados,id',
             'Monto' => 'required|number',
-            'Fecha' => 'required'
+            'Fecha' => 'required',
+            'trip_id' => 'nullable|exists:trips,id'
         ]);
 
         $detalleGasto->update($validatedData);

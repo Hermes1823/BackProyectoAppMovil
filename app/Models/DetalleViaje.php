@@ -10,9 +10,9 @@ class DetalleViaje extends Model
 {
     use HasFactory;
     protected $table='detalleviajes';
-    public $incrementing=false;
-    protected $primaryKey=null;
-    public $timestamps=false;
+    // public $incrementing=false;
+    // protected $primaryKey=null;
+    // public $timestamps=false;
     protected $fillable=['IdViaje', 'IdEmpleado','FechaSalida', 'FechaRegreso'];
     public function viaje()
     {
