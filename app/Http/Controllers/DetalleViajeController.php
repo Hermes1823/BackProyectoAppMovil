@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\DetalleViaje;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Exception;
 
 class DetalleViajeController extends Controller
@@ -73,4 +74,25 @@ class DetalleViajeController extends Controller
             return response()->json(['message' => 'Error al eliminar el detalle del viaje', 'error' => $e->getMessage()], 500);
         }
     }
+
+    public function generatePdf($id)
+    {
+        $detalleViaje = DetalleViaje::with(['viaje', 'empleado', 'detallegastos'])->findOrFail($id);
+
+        $pdf = Pdf::loadView('detalleViaje', compact('detalleViaje'));
+
+        return $pdf->download('detalleViaje_' . $id . '.pdf');
+    }
+
+    public function chartData()
+    {
+        $data = DetalleViaje::selectRaw('DATE_FORMAT(created_at, "%Y-%m") as month, COUNT(*) as total')
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
+
+        return response()->json([
+            'chartData' => $data
+        ]);
+    }   
 }

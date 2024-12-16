@@ -9,7 +9,7 @@ class Gasto extends Model
 {
     use HasFactory;
     protected $table='gastos';
-protected $primaryKey='idgasto';
-public $timestamps=false;
-protected $fillable=['titulo','monto','categoria'];
+    protected $primaryKey='idgasto';
+    public $timestamps=false;
+    protected $fillable=['titulo','monto','categoria'];
 }

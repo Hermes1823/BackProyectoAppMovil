@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Viaje;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Exception;
 
 class ViajeController extends Controller
@@ -58,5 +59,26 @@ class ViajeController extends Controller
         $viaje = Viaje::findOrFail($id);
         $viaje->delete();
         return 204;
+    }
+
+    public function generatePdf($id)
+    {
+        $viaje = Viaje::with(['detalleviajes'])->findOrFail($id);
+
+        $pdf = Pdf::loadView('viaje', compact('viaje'));
+
+        return $pdf->download('viaje_' . $id . '.pdf');
+    }
+
+    public function chartData()
+    {
+        $data = Viaje::selectRaw('DATE_FORMAT(created_at, "%Y-%m") as month, COUNT(*) as total')
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
+
+        return response()->json([
+            'chartData' => $data
+        ]);
     }
 }
