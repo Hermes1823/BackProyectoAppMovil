@@ -19,8 +19,8 @@ class Viaje extends Model
         return $this->hasMany(DetalleViaje::class, 'IdViaje');
     }
 
-    public function detallegastos()
-    {
-        return $this->hasMany(DetalleGasto::class, 'IdViaje');
-    }
+   // public function detallegastos()
+    //{
+     //   return $this->hasMany(DetalleGasto::class, 'IdViaje');
+   // }
 }

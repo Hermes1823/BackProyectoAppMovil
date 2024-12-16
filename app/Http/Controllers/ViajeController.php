@@ -1,48 +1,62 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Viaje;
 use Illuminate\Http\Request;
+use Exception;
 
 class ViajeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Mostrar todos los viajes
     public function index()
     {
-        //
+        $ListaViaje = Viaje::all();
+        return response()->json($ListaViaje);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Almacenar un nuevo viaje
     public function store(Request $request)
     {
-        //
+        try {
+            $viaje = new Viaje();
+            $viaje->Destino = $request->Destino; // Ajuste para el campo 'Destino'
+            $viaje->save();
+            $result=[
+                'Destino' => $viaje->Destino,
+                'created' => true
+            ];
+            return $result;
+        } catch (Exception $e) {
+            return "Error fatal - " . $e->getMessage();
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    // Mostrar un viaje específico
+    public function show($id)
     {
-        //
+        return Viaje::find($id);
+
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    // Actualizar un viaje existente
+    public function update(Request $request, $id)
     {
-        //
+        $viaje = Viaje::findOrFail($id);
+        $viaje->update($request->all());
+        return $viaje;
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    // Eliminar un viaje
+    public function destroy($id)
     {
-        //
+        $viaje = Viaje::findOrFail($id);
+        $viaje->delete();
+        return 204;
+    }
+    public function delete($id)
+    {
+        $viaje = Viaje::findOrFail($id);
+        $viaje->delete();
+        return 204;
     }
 }

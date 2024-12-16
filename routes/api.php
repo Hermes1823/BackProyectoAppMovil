@@ -35,8 +35,8 @@ Route::get('/login/{email}',[LogeoController::class,'verificaemail']);
 Route::get('/login/{email}/{password}',[LogeoController::class,'verificaclave']);
 Route::get('/usuarios', [LogeoController::class, 'listarUsuarios']);
 
-Route::apiResource('viajes', ViajeController::class);
-Route::apiResource('empleados', EmpleadoController::class);
-Route::apiResource('tipogastos', TipoGastoController::class);
-Route::apiResource('detalleviajes', DetalleViajeController::class);
-Route::apiResource('detallegastos', DetalleGastoController::class);
+Route::Resource('viajes', ViajeController::class);
+Route::Resource('empleados', EmpleadoController::class);
+Route::Resource('tipogastos', TipoGastoController::class);
+Route::Resource('detalleviajes', DetalleViajeController::class);
+Route::Resource('detallegastos', DetalleGastoController::class);
